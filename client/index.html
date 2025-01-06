@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Telnet WebSocket Client</title>
+  </head>
+  <body>
+    <form>
+      <input type="text" placeholder="Type a message" />
+      <button type="submit">Send</button>
+    </form>
+    <button id="reconnect">Reconnect</button>
+    <button id="exit">Exit</button>
+    <p>ID: <span id="id">unknown</span></p>
+    <p>Connected: <span id="status">no</span></p>
+    <p>Ready: <span id="ready">no</span></p>
+    <hr>
+    <p>Role: <span id="role">unknown</span></p>
+    <p>Number of trials: <span id="trials">unknown</span></p>
+    <p>Number to guess: <span id="guess">unknown</span></p>
+    <!--<p>Time: <span id="time">unknown</span></p>-->
+    <!--<p>Nickname: <span id="ready">unknown</span></p>-->
+    <script type="module" src="js/app.js"></script>
+  </body>
+</html>

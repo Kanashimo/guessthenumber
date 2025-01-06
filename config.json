@@ -1,0 +1,13 @@
+{
+    "client": {
+        "port": 80,
+        "ws_addr": "localhost"
+    },
+    "ws": {
+        "port": 4000,
+        "connection": {
+            "ip": "83.168.78.57",
+            "port": 4000
+        }
+    }
+}
