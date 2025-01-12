@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+15&display=swap');
+.jersey-15-regular {
+    font-family: "Jersey 15", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 45px;
+}
+.grid {
+    --gap: 20px;
+    grid-template-columns: 40% calc(60% - var(--gap));
+    gap: var(--gap);
+}
+.element {
+    background-color: rgb(240, 240, 240) !important;
+    border-radius: 0.25rem;
+}
+.input {
+    background-color: rgb(240, 240, 240) !important;
+}
+#info, #logs, h3 {
+    padding: 20px;
+}
+#info strong, #logs strong {
+    padding-top: 0px !important;
+    color: #424751;
+}
+#textarea {
+    height: 400px;
+}
