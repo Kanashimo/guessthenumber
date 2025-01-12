@@ -86,7 +86,7 @@ function ws_connect() {
       }
     }
     messages.push(event.data)
-    console.log('Server:', event.data);
+    //console.log('Server:', event.data);
 
     if (plr.local.id == 0){
       document.getElementById('role').textContent = 'Zgadnij liczbę'
@@ -112,22 +112,24 @@ function ws_connect() {
 ws_connect()
 
 function ws_reconnect() {
+  MessageCounter = 0
   document.getElementById("textarea").value = ''
   log('Łączenie ponownie...\n\n')
   ws.send('exit')
   ws.close()
-  console.log(messages)
-  console.log(plr)
+  //console.log(messages)
+  //console.log(plr)
   messages = []
   ws_connect()
 }
 
 function ws_exit() {
+  MessageCounter = 0
   document.getElementById("textarea").value = ''
   ws.send('exit')
   ws.close()
-  console.log(messages)
-  console.log(plr)
+  //console.log(messages)
+  //console.log(plr)
   messages = []
 }
 
