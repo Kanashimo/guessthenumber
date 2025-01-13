@@ -31,6 +31,7 @@ function ws_connect() {
       ws.close()
       log('Przeciwnik wychodzi z gry\n\n')
     } else if(data.includes('full')){
+      log('Serwer jest pełny\n\n')
       console.log('Server is full!')
       ws.close()
     }
@@ -48,18 +49,13 @@ function ws_connect() {
       log('Przeciwnik próbuję zgadnąc liczbę ' + guessedNumber + '\n\n')
     }
     if(data.includes('win')){
+      document.getElementById('input_desc').textContent = ''
       document.getElementById('win').textContent = 'Tak'
       document.getElementById('guess').textContent = pickedNumber
       document.getElementById('input').disabled = true
       document.getElementById('button').disabled = true
       log('Zgadujesz liczbę\n\n')
       log('Koniec gry\n\n')
-    }
-    if(pickedNumber == guessedNumber) {
-      log('Przeciwnik zgaduje liczbę\n\n')
-      log('Koniec gry\n\n')
-      ws.send('win')
-      document.getElementById('win').textContent = 'Tak'
     }
     if(messages.length == 0) {
       if (data[0] == "0" || data[0] == "1") {
@@ -92,11 +88,18 @@ function ws_connect() {
       document.getElementById('role').textContent = 'Zgadnij liczbę'
     } else {
       document.getElementById('role').textContent = 'Wybierz liczbę'
+      if(pickedNumber == guessedNumber) {
+        log('Przeciwnik zgaduje liczbę\n\n')
+        log('Koniec gry\n\n')
+        ws.send('win')
+        document.getElementById('win').textContent = 'Tak'
+      }
     }
   };
   
   ws.onclose = () => {
     log('Rozłączono\n\n')
+    document.getElementById('input_desc').textContent = ''
     document.getElementById('input').disabled = true
     document.getElementById('button').disabled = true
     pickedNumber = -1
@@ -113,6 +116,7 @@ ws_connect()
 
 function ws_reconnect() {
   MessageCounter = 0
+  document.getElementById('trials').textContent = MessageCounter
   document.getElementById("textarea").value = ''
   log('Łączenie ponownie...\n\n')
   ws.send('exit')
@@ -125,6 +129,7 @@ function ws_reconnect() {
 
 function ws_exit() {
   MessageCounter = 0
+  document.getElementById('trials').textContent = MessageCounter
   document.getElementById("textarea").value = ''
   ws.send('exit')
   ws.close()
@@ -145,9 +150,24 @@ document.querySelector('form').addEventListener('submit', (event) => {
     document.getElementById('button').disabled = true
   } else {
     MessageCounter += 1
+    guessedNumber = document.querySelector('input').value
     document.getElementById('trials').textContent = MessageCounter
     log('Próbujesz zgadnąć liczbę ' + document.querySelector('input').value + '\n\n')
     message = 'guessedNumber-' + document.querySelector('input').value
+    let difference = Math.abs(guessedNumber - pickedNumber)
+    console.log(difference)
+    document.getElementById('input_desc').textContent = ''
+    if(difference > 50) {
+      document.getElementById('input_desc').textContent = '❄️ Zimno'
+    } else if (difference > 25) {
+      document.getElementById('input_desc').textContent = '🌧️ Pochmurnie'
+    }else if (difference > 15) {
+      document.getElementById('input_desc').textContent = '☀️ Ciepło'
+    } else if (difference > 5) {
+      document.getElementById('input_desc').textContent = '🔥 Bardzo ciepło'
+    } else {
+      document.getElementById('input_desc').textContent = '👺 Piekło'
+    }
   }
   ws.send(message)
 });
