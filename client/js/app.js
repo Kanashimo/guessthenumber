@@ -20,13 +20,17 @@ function ws_connect() {
   ws = new WebSocket('ws://' + config.client.ws_addr + ':' + config.ws.port);
 
   ws.onopen = () => {
+
     document.getElementById('status').textContent = 'Tak';
     console.log('Connected');
     log('Połączyłeś się\n\n')
+
   };
   
   ws.onmessage = (event) => {
+
     let data = event.data.split('-')
+
     if(data.includes('exit') || data.includes('left')){
       ws.close()
       log('Przeciwnik wychodzi z gry\n\n')
@@ -35,6 +39,7 @@ function ws_connect() {
       console.log('Server is full!')
       ws.close()
     }
+
     if(data.includes('pickedNumber')){
       pickedNumber = data[1]
       document.getElementById('guess').textContent = '???';
@@ -42,12 +47,14 @@ function ws_connect() {
       document.getElementById('button').disabled = false
       log('Przeciwnik wybrał liczbę\n\n')
     }
+
     if(data.includes('guessedNumber')){
       guessedNumber = data[1]
       MessageCounter += 1
       document.getElementById('trials').textContent = MessageCounter
       log('Przeciwnik próbuję zgadnąc liczbę ' + guessedNumber + '\n\n')
     }
+
     if(data.includes('win')){
       document.getElementById('input_desc').textContent = ''
       document.getElementById('win').textContent = 'Tak'
@@ -57,6 +64,7 @@ function ws_connect() {
       log('Zgadujesz liczbę\n\n')
       log('Koniec gry\n\n')
     }
+
     if(messages.length == 0) {
       if (data[0] == "0" || data[0] == "1") {
         plr.local.id = data[0]
@@ -67,6 +75,7 @@ function ws_connect() {
         ws_reconnect()
       }
     }
+
     if (data.includes('ready')){
       log('Wszyscy są na serwerze, zmieniono status gry na gotową\n\n')
       document.getElementById('guess').textContent = plr.local.id == '1' ? 'Wybierz liczbę' : 'Przeciwnik wybiera liczbę'
@@ -81,6 +90,7 @@ function ws_connect() {
         document.getElementById('button').disabled = false
       }
     }
+
     messages.push(event.data)
     //console.log('Server:', event.data);
 
@@ -95,26 +105,34 @@ function ws_connect() {
         document.getElementById('win').textContent = 'Tak'
       }
     }
+
   };
   
   ws.onclose = () => {
+
     log('Rozłączono\n\n')
+
     document.getElementById('input_desc').textContent = ''
     document.getElementById('input').disabled = true
     document.getElementById('button').disabled = true
+
     pickedNumber = -1
     guessedNumber = -2
+
     document.getElementById('id').textContent = 'Nieznany';
     document.getElementById('status').textContent = 'Nie';
     document.getElementById('ready').textContent = 'Nie';
     document.getElementById('role').textContent = 'Nieznana'
+
     console.log('Disconnected');
+
   };
 
 }
 ws_connect()
 
 function ws_reconnect() {
+
   MessageCounter = 0
   document.getElementById('trials').textContent = MessageCounter
   document.getElementById("textarea").value = ''
@@ -125,9 +143,11 @@ function ws_reconnect() {
   //console.log(plr)
   messages = []
   ws_connect()
+
 }
 
 function ws_exit() {
+
   MessageCounter = 0
   document.getElementById('trials').textContent = MessageCounter
   document.getElementById("textarea").value = ''
@@ -136,11 +156,14 @@ function ws_exit() {
   //console.log(messages)
   //console.log(plr)
   messages = []
+  
 }
 
 document.querySelector('form').addEventListener('submit', (event) => {
+
   event.preventDefault();
   let message
+  
   if (plr.local.id == "1") {
     message = 'pickedNumber-' + document.querySelector('input').value
     pickedNumber = document.querySelector('input').value
@@ -170,14 +193,19 @@ document.querySelector('form').addEventListener('submit', (event) => {
     }
   }
   ws.send(message)
+
 });
 
 document.querySelector('#reconnect').addEventListener('click', (event) => {
+
   console.log('Reconnecting...')
   ws_reconnect()
+
 })
 
 document.querySelector('#exit').addEventListener('click', (event) => {
+
   console.log('Disconnecting...')
   ws_exit()
+
 })
