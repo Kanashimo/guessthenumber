@@ -11,18 +11,18 @@
     gap: var(--gap);
 }
 .element {
-    background-color: rgb(240, 240, 240) !important;
+    background-color: rgb(35, 40, 51) !important;
     border-radius: 0.25rem;
 }
 .input {
-    background-color: rgb(240, 240, 240) !important;
+    background-color: rgb(35, 40, 51) !important;
 }
 #info, #logs, h3 {
     padding: 20px;
 }
 #info strong, #logs strong {
     padding-top: 0px !important;
-    color: #424751;
+    color: #e1e1e1;
 }
 #textarea {
     height: 400px;

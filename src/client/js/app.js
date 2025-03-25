@@ -1,4 +1,4 @@
-import config from '../../config.json' assert { type: 'json' };
+import config from '../../../config.json' assert { type: 'json' };
 
 var ws
 let plr = {}

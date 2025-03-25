@@ -1,4 +1,4 @@
-import config from '../config.json' assert { type: 'json' };
+import config from '../../config.json' assert { type: 'json' };
 import WebSocket, { WebSocketServer } from 'ws';
 import net from 'net';
 
